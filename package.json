@@ -1,5 +1,5 @@
 {
-  "name": "reasciify",
+  "name": "pixi-ascii",
   "version": "1.0.0",
   "description": "Cool PixiJS ascii art filter",
   "main": "AsciiFilter.js",
