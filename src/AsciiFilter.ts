@@ -1,41 +1,59 @@
 import { Filter } from '@pixi/core';
 import { Texture } from 'pixi.js';
-import fontMap from './fontMap.png';
+import fontMap from 'Ascii/fontMap.png';
 
-const vertex = `  attribute vec2 aVertexPosition;
-   attribute vec2 aTextureCoord;
-   uniform mat3 projectionMatrix;
-   varying vec2 vTextureCoord;
-   void main(void) {
-        gl_Position =  vec4((projectionMatrix * vec3(aVertexPosition, 1.0)).xy, 0.0, 1.0);
-        vTextureCoord = aTextureCoord;
-    }`;
+// TODO (cengler) - The Y is flipped in this shader for some reason.
+
+// @author Vico @vicocotea
+// original shader : https://www.shadertoy.com/view/lssGDj by @movAX13h
+
+/**
+ * An ASCII filter.<br>
+ * ![original](../tools/screenshots/dist/original.png)![filter](../tools/screenshots/dist/ascii.png)
+ *
+ * @class
+ * @extends PIXI.Filter
+ * @memberof PIXI.filters
+ * @see {@link https://www.npmjs.com/package/@pixi/filter-ascii|@pixi/filter-ascii}
+ * @see {@link https://www.npmjs.com/package/pixi-filters|pixi-filters}
+ */
 
 const fragment = `
 precision highp float;
+precision highp int;
+varying vec2 vTextureCoord;
 uniform sampler2D uSampler;
 uniform sampler2D fontTexture;
 uniform vec4 inputPixel;
-uniform int charIndexes[16]; 
+uniform int charIndexes[16];
+uniform int size;
 
-float width = inputPixel.x;
-float height = inputPixel.y;
-const int zoom = 1;
+float scale = float(size) * 8.0;
 
-vec2 sampleCoord(vec2 coord) {
-  return coord / vec2(width, height);
+vec2 mapCoord(vec2 coord) {
+  coord *= inputPixel.xy;
+  return coord;
 }
 
-vec2 getFontCoord(int i, vec4 coord) {
-  float chY = floor(float(i) / 16.);
+vec2 unmapCoord(vec2 coord) {
+  coord *= inputPixel.zw;
+  return coord;
+}
+
+vec2 getFontCoord(int i, vec2 coord) {
   float chX = mod(float(i), 16.);
-  vec2 fontCoord = vec2((chX * 8. + mod(coord.x / float(zoom), 8.)) / 128., (chY * 8. + (8. - mod((-coord.y) / float(zoom), 8.))) / 128.);
+  float chY = floor(float(i) / 16.);
+  
+  vec2 fontCoord = vec2(
+    (chX * 8. + mod(coord.x / float(size), 8.)) / 128.,
+    (chY * 8. + mod(coord.y / float(size), 8.)) / 128.
+  );
   return fontCoord;
 }
 
-float averageBlockColor(vec4 coord) {
-  vec2 topLeftCoord = floor(coord.xy / (float(zoom) * 8.)) * float(zoom) * 8.;
-  vec4 topLeftColor = texture2D(uSampler, sampleCoord(topLeftCoord));  
+float averageBlockColor(vec2 coord) {
+  vec2 topLeftCoord = unmapCoord(floor(coord / scale) * scale);
+  vec4 topLeftColor = texture2D(uSampler, topLeftCoord);
   float charIndex = floor(((topLeftColor.x + topLeftColor.y + topLeftColor.z) / 3.0) * 15.0);
 
   int minIdx = charIndexes[0];
@@ -55,7 +73,6 @@ float averageBlockColor(vec4 coord) {
   if (charIndex == 14.0) minIdx = charIndexes[14];
   if (charIndex == 15.0) minIdx = charIndexes[15];
 
-  
   vec2 fontCoord = getFontCoord(minIdx, coord);
   vec4 fontColors = texture2D(fontTexture, fontCoord);
   if ((fontColors.x + fontColors.y + fontColors.z) / 3.0 < 0.5) return 0.0;
@@ -63,20 +80,21 @@ float averageBlockColor(vec4 coord) {
 }
 
 void main() {
-  vec4 coord = gl_FragCoord;
+  vec2 coord = mapCoord(vTextureCoord);
   float averageColor = averageBlockColor(coord);
-  if(averageColor > 0.0) gl_FragColor = averageColor * texture2D(uSampler, sampleCoord(coord.xy));
-  else gl_FragColor = vec4(0);
+  if(averageColor > 0.0) gl_FragColor = averageColor * texture2D(uSampler, vTextureCoord);
+  else gl_FragColor = vec4(0,0,0, 1.0);
 }`;
 
 export default class AsciiFilter extends Filter {
   constructor() {
-    super(vertex, fragment);
+    super(null, fragment);
     this.fontTexture = Texture.from(fontMap);
     // ascii values: -'"^\]on3b&HAB@0
     this.charIndexes = [
       45, 96, 34, 94, 92, 93, 111, 110, 51, 98, 38, 72, 65, 66, 64, 48
     ];
+    this.size = 1;
   }
 
   get fontTexture() {
@@ -89,5 +107,9 @@ export default class AsciiFilter extends Filter {
 
   set charIndexes(value: number[]) {
     this.uniforms.charIndexes = value;
+  }
+
+  set size(value: number) {
+    this.uniforms.size = value;
   }
 }
