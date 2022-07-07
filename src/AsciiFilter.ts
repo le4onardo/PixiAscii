@@ -1,6 +1,6 @@
 import { Filter } from '@pixi/core';
 import { Texture } from 'pixi.js';
-import fontMap from 'Ascii/fontMap.png';
+import fontMap from './fontMap.png';
 
 // TODO (cengler) - The Y is flipped in this shader for some reason.
 
