@@ -27,6 +27,7 @@ uniform sampler2D fontTexture;
 uniform vec4 inputPixel;
 uniform int charIndexes[16];
 uniform int size;
+uniform vec4 backgroundColor;
 
 float scale = float(size) * 8.0;
 
@@ -83,7 +84,7 @@ void main() {
   vec2 coord = mapCoord(vTextureCoord);
   float averageColor = averageBlockColor(coord);
   if(averageColor > 0.0) gl_FragColor = averageColor * texture2D(uSampler, vTextureCoord);
-  else gl_FragColor = vec4(0,0,0, 1.0);
+  else gl_FragColor = backgroundColor;
 }`;
 
 export default class AsciiFilter extends Filter {
@@ -95,6 +96,7 @@ export default class AsciiFilter extends Filter {
       45, 96, 34, 94, 92, 93, 111, 110, 51, 98, 38, 72, 65, 66, 64, 48
     ];
     this.size = 1;
+    this.backgroundColor = [0.0, 0.0, 0.0, 1.0];
   }
 
   get fontTexture() {
@@ -111,5 +113,9 @@ export default class AsciiFilter extends Filter {
 
   set size(value: number) {
     this.uniforms.size = value;
+  }
+
+  set backgroundColor(value: number[]) {
+    this.uniforms.backgroundColor = value;
   }
 }
