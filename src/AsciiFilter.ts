@@ -88,7 +88,7 @@ void main() {
 
 export default class AsciiFilter extends Filter {
   constructor() {
-    super(null, fragment);
+    super(undefined, fragment);
     this.fontTexture = Texture.from(fontMap);
     // ascii values: -'"^\]on3b&HAB@0
     this.charIndexes = [
