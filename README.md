@@ -3,7 +3,10 @@ Cool PixiJS ascii art filter.
 
 An adapted version of [Lea Rosema](https://github.com/learosema)'s [ascii shader](https://codepen.io/learosema/pen/abveWaY) as a Pixi JS filter. Check it out!
 
-![alt text](https://github.com/le4onardo/PixiAscii/blob/gif-test/earth_zoom_smaller_font.gif "Earth")
+<p align="center">
+<img src="https://github.com/le4onardo/PixiAscii/blob/gif-test/earth%20zoom.gif" width="700" />
+</p>
+
 
 ___
 
