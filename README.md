@@ -1,7 +1,9 @@
 # PixiAscii
 Cool PixiJS ascii art filter.
 
-A simplified version of [Lea Rosema](https://github.com/learosema)'s [ascii shader](https://codepen.io/learosema/pen/abveWaY) as a Pixi JS filter. Check it out!
+An adapted version of [Lea Rosema](https://github.com/learosema)'s [ascii shader](https://codepen.io/learosema/pen/abveWaY) as a Pixi JS filter. Check it out!
+
+![alt text](https://github.com/le4onardo/PixiAscii/raw/gif-test/earth zoom.gif "Logo Title Text 1")
 
 ___
 
