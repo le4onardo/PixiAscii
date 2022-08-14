@@ -1,1 +1,2 @@
-export * from './src/AsciiFilter';
+import AsciiFilter from "./src/AsciiFilter";
+export default AsciiFilter;

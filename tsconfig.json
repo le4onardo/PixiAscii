@@ -5,17 +5,7 @@
     "module": "ES2020", // which system for the program AMD, UMD, System, CommonJS
     "allowSyntheticDefaultImports": true,
     "declaration": true,
-    // Recommended: Compiler complains about expressions implicitly typed as 'any'
-    // "noImplicitAny": true,
-    // "typeRoots": ["node_modules/@types", "index.d.ts"],
     "moduleResolution": "node",
-    // "baseUrl": ".",
-    /*
-    "paths": {
-      "*": [ "node_modules/*", "index.ts"]
-    }
-    */
   },
-  "include": ["src", "index.d.ts"], // which files to compile
-  "exclude": ["node_modules"] // which files to not compile
+  "exclude": ["node_modules", "./dist"] // which files to not compile
 }

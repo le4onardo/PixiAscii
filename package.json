@@ -1,13 +1,13 @@
 {
   "name": "pixi-ascii",
-  "version": "0.0.9",
+  "version": "1.0.0",
   "description": "Cool PixiJS ascii art filter",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "author": "Leonardo Rios",
   "license": "ISC",
   "scripts":{
-    "build": "tsc && copyfiles -f src/*.png dist"
+    "build": "tsc && copyfiles src/*.png dist"
   },
   "devDependencies": {
     "copyfiles": "^2.4.1",
