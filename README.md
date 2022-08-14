@@ -8,12 +8,39 @@ An adapted version of [Lea Rosema](https://github.com/learosema)'s [ascii shader
 </p>
 
 
+# Installation
+
+```
+npm i pixi-ascii
+```
+
+# Usage
+
+You can use it as any other Pixi filter
+
+```
+import AsciiFilter from 'pixi-filter';
+
+...
+const texture = Texture.from('some media');
+const sprite = new Sprite(texture);
+const container = new Container();
+
+const ascii = new AsciiFilter();
+sprite.filters = [ascii];
+
+container.addChild(sprite);
+...
+
+```
 ___
 
 # ToDo
 - Small offset/glitch in odd screen heights
 
 - Smoothness chars loss when zoom larger than 2.
+
+
 
 
 
