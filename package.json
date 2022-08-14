@@ -2,8 +2,8 @@
   "name": "pixi-ascii",
   "version": "1.0.0",
   "description": "Cool PixiJS ascii art filter",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "index.js",
+  "types": "index.d.ts",
   "author": "Leonardo Rios",
   "license": "ISC",
   "scripts":{
