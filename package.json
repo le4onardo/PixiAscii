@@ -1,11 +1,21 @@
 {
   "name": "pixi-ascii",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Cool PixiJS ascii art filter",
   "main": "index.js",
   "types": "index.d.ts",
   "author": "Leonardo Rios",
   "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/le4onardo/PixiAscii"
+},
+  "keywords": [
+    "ascii",
+    "art",
+    "text",
+    "pixi"
+  ],
   "scripts":{
     "build": "tsc && copyfiles src/*.png dist"
   },
